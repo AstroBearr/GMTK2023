@@ -70,6 +70,16 @@ public class ComputerInputType : MonoBehaviour {
                 }
             }
 
+            if (closestHuman == null && transform.parent.name == "Zombies") {
+                if (Vector2.Distance(transform.position, closestHuman.position) > 3) {
+                    //Vector3 unitVector = (closestHuman.position - transform.position) / ((closestHuman.position - transform.position).magnitude);
+                    targetMoveAdd = (GameObject.Find("Player Zombie").transform.position - transform.position).normalized;
+
+                }
+
+            
+            }
+
             if (closestHuman != null) {
 
                 if (Vector2.Distance(transform.position, closestHuman.position) > 10) {
@@ -83,7 +93,7 @@ public class ComputerInputType : MonoBehaviour {
                     targetMoveAdd = -(closestHuman.position - transform.position).normalized;
 
                 }
-            }
+            } 
 
             foreach (Transform zombie in zombies) {
                 float scalingValue = boidAmount - Vector3.Distance(zombie.position, transform.position);

@@ -11,4 +11,10 @@ public class Bullet : MonoBehaviour {
     private void Awake() {
         rb.AddRelativeForce(new Vector2(speed, 0));
     }
+
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.collider.gameObject.CompareTag("Wall")) {
+            Destroy(gameObject);
+        }
+    }
 }

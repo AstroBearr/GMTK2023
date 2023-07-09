@@ -16,5 +16,6 @@ public class ControlButton : MonoBehaviour
         GameObject.Find("Canvas").GetComponent<ControlManager>().ContinueGame();
         GameObject.Find("Canvas").GetComponent<ControlManager>().isControlling = true;
         GameObject.Find("Canvas").GetComponent<ControlManager>().controlPower -= myHuman.GetComponent<Entity>().controlCost;
+        GameObject.Find("Player Zombie").GetComponent<AudioSource>().Play();
     }
 }

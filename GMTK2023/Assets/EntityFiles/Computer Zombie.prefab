@@ -157,6 +157,9 @@ MonoBehaviour:
   health: 100
   maxHealth: 100
   controlCost: 1
+  type: Pistol Man
+  damage: 15
+  bulletSpeed: 0
 --- !u!114 &4258141320040428444
 MonoBehaviour:
   m_ObjectHideFlags: 0

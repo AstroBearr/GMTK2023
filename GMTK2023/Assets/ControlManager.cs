@@ -20,6 +20,7 @@ public class ControlManager : MonoBehaviour
     public GameObject controlledHealthBar;
     public GameObject controlledType;
     public GameObject controlMenu;
+    public GameObject selectionEffect;
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Space)) {
@@ -55,31 +56,33 @@ public class ControlManager : MonoBehaviour
         if (isControlling) {
             controlMenu.SetActive(true);
             controlledHealthBar.GetComponent<Slider>().value = (float)controlledHuman.GetComponent<Entity>().health / (float)controlledHuman.GetComponent<Entity>().maxHealth;
-            controlledType.GetComponent<Text>().text = controlledHuman.name;
+            controlledType.GetComponent<Text>().text = controlledHuman.GetComponent<Entity>().type;
         } else {
             controlMenu.SetActive(false);
         }
     }
 
     private void CreateButtons() {
-        foreach(Transform button in transform.GetChild(0)) {
+        foreach(Transform button in transform.GetChild(7)) {
             Destroy(button.gameObject);
         }
         foreach(Transform human in humans) {
             if (human.GetComponent<Entity>().controlCost <= controlPower) {
-                GameObject newObl = Instantiate(controlButton, Camera.main.WorldToScreenPoint(human.position), Quaternion.identity, transform.GetChild(0));
+                GameObject newObl = Instantiate(controlButton, Camera.main.WorldToScreenPoint(human.position), Quaternion.identity, transform.GetChild(7));
                 newObl.GetComponent<ControlButton>().myHuman = human;
                 newObl.transform.GetChild(0).GetComponent<Text>().text =  human.GetComponent<Entity>().controlCost.ToString();
             }
         }
+        selectionEffect.SetActive(true);
     }
 
     public void ContinueGame() {
-        foreach (Transform button in transform.GetChild(0)) {
+        foreach (Transform button in transform.GetChild(7)) {
             Destroy(button.gameObject);
         }
         isSelecting = false;
         Time.timeScale = 1f;
+        selectionEffect.SetActive(false);
     }
 
 }

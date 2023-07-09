@@ -20,21 +20,17 @@ public class Entity : MonoBehaviour
 
     public int controlCost = 1;
 
-    private bool didMoveThisFrame = false;
+    private Vector3 lastFramePos = new Vector3(0, 0, 0);
+
+    public string type = "Pistol Man";
+    public int damage = 15;
+    public float bulletSpeed = 1;
 
     public void Move(Vector2 moveVector) {
         Vector2 outPos = new Vector2(transform.position.x, transform.position.y) + (moveVector.normalized * speed * Time.deltaTime);
-        didMoveThisFrame = true;
         rb.MovePosition(outPos);
-    }
-
-    private void LateUpdate() {
-        if (didMoveThisFrame == true) {
+        if (transform.position != lastFramePos)
             transform.GetComponent<Animator>().SetFloat("Speed", speed);
-        } else {
-            transform.GetComponent<Animator>().SetFloat("Speed", 0);
-        }
-        didMoveThisFrame = false;
     }
 
     public void Aim(float angle) {
@@ -52,13 +48,19 @@ public class Entity : MonoBehaviour
 
     public void Update() {
         reload -= Time.deltaTime;
+        if (lastFramePos == transform.position) {
+            transform.GetComponent<Animator>().SetFloat("Speed", speed);
+        }
+        lastFramePos = transform.position;
     }
 
     public void Fire() {
         if (reload <= 0) {
             GameObject newBullet = GameObject.Instantiate(bullet, gun.GetChild(0).position, gun.rotation);
             newBullet.transform.parent = GameObject.Find("Bullets").transform;
+            newBullet.GetComponent<Bullet>().damage = damage;
             reload = reloadtime;
+            transform.GetComponent<Animator>().SetTrigger("Attack");
         }
     }
 
